@@ -1,0 +1,68 @@
+    #include <p18f4550.inc>
+    config CPUDIV = OSC1_PLL2 ;
+    config FOSC = HS ;
+    config WDT = OFF ;
+    config PBADEN = OFF;
+    config LVP = OFF ;
+    config MCLRE = ON ;
+    config PWRT = ON ;
+    #define dU 0x00;
+    #define dH 0x01;
+    #define dL 0x02;
+    #define TMRL 0x69;
+    #define TMRH 0x67;
+    org 0x00;
+    bra start
+
+    org 0x0100
+start:
+   
+    
+    BCF INTCON2,7,0 ;Habilitando resistor pull-up
+    MOVLW 0x0F
+    MOVWF ADCON1,0 ;Desativar conversor A/D
+
+    BCF TRISE, 0; configuração do LED RE0
+    BCF TRISE, 1; configuração do LED RE1
+
+    BSF INTCON, 7; setando o bit do GIE
+    BSF INTCON, 5; setando o bit do TIMEROIE
+    BCF INTCON, 2; zerando o bit da flag do Timer
+
+    ;Configuracao inicial T0START
+    MOVLW TMRL
+    MOVWF 0x00,0;
+    MOVLW TMRH;
+    MOVWF 0x01, 0;
+    
+    
+    MOVFF 0x00, TMR0L;
+    MOVFF 0x01, TMR0H;
+    ;Configuracoes do timer 0
+    MOVLW 0x06 ;Definindo o prescaler como 128
+    MOVWF T0CON;
+    BCF T0CON, 6; Definindo timer 0 como de 16 bits
+    BSF T0CON, 7; Ligando timer 0
+    BSF LATE, 0;Setando bit 0 do LATE
+    BCF LATE, 1;Zerando bit 1 do LATE
+
+loop:
+    
+    bra loop
+
+inttimer:
+     BCF INTCON, 2; zerando o bit da flag do Timer
+     MOVFF 0x00, TMR0L;Passando o valor de T0START para o Timer
+     MOVFF 0x01, TMR0H;Passando o valor de T0START para o Timer
+     BTG LATE,0; Toggle bit 0 LATE
+     BTG LATE, 1;Toggle bit 1 LATE
+     RETFIE
+;Interrupção
+    org 0x08;
+INTERRUPT:
+        BTFSC INTCON, TMR0IF, 0;
+        bra inttimer;
+    end
+
+end
+
