@@ -1,5 +1,7 @@
-
-
+//Faça um programa em C que apresente a contagem de 0-9 segundos no display de 7 segmentos. Deve-se utilizar a interrupção por overflow do Timer 0 para atualizar o display
+//Atividades para serem entregues no trabalho final:
+//2 - Baseado no programa da questão 1, faça um cronômetro de dois dígitos, ou seja, de 00 a 59 segundos
+//3 - Acrescente ao programa anterior um dígito para registrar os minutos
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
