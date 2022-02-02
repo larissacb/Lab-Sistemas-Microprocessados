@@ -73,7 +73,7 @@ void main() {
         }
 
         //unidade dos segundos
-        if (i%2 == 0){ //impar aqui estava i%2 == 1
+        if (i%4 == 0){ //impar aqui estava i%2 == 1
            LATAbits.LA5 = 0; //desligo a dezena dos minutos
            LATAbits.LA2 = 0; //desliga a unidade dos minutos
            LATEbits.LE0 = 0; //desliga dezena dos segundos
@@ -83,7 +83,7 @@ void main() {
         }
 
         //dezena dos segundos
-        if (i%2 == 1){ //aqui estava i%2 == 0
+        if (i%4 == 1){ //aqui estava i%2 == 0
             LATAbits.LA5 = 0; //desligo a dezena dos minutos
             LATAbits.LA2 = 0; //desliga a unidade dos minutos
             LATEbits.LE2 = 0; //desligo a unidade dos segundos
@@ -93,7 +93,7 @@ void main() {
         }
         
         //unidade dos minutos
-        if (i%3 == 2){ 
+        if (i%4 == 2){ 
             LATAbits.LA5 = 0; //desligo a dezena dos minutos
             LATEbits.LE0 = 0; //desliga a dezena dos segundos
             LATEbits.LE2 = 0; //desligo a unidade dos segundos
@@ -122,4 +122,3 @@ void interrupt IntTimer (void){
         i++;
     }
 }
-
