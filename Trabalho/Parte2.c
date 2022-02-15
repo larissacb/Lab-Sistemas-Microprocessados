@@ -22,7 +22,6 @@ void main() {
     INTCON2bits.RBPU = 0; //habilitando resistor pull-up
     
     //Configuracao das entradas e saidas
-    TRISAbits.RA0 = 1; //entrada analogica
     TRISCbits.RC1 = 0; //saida lampada
     TRISB = 0xFF; //botoes configurados como entradas
     
@@ -44,9 +43,8 @@ void main() {
     CCP2CONbits.CCP2M = 0b1111; //ccp configurado no modo pwm
     T2CONbits.TMR2ON = 1; //liga timer 2
     
-    //Item 1 - inicializacao do PWM com 50% de Duty Cycle
     CCP2CONbits.DC2B = 0x00;
-    CCPR2L = 0xFF; //passo metade do valor para a lampada
+    CCPR2L = 0xFF; //passo valor maximo do pwm inicialmente para lampada
 
     
     while(1){
